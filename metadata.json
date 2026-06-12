@@ -1,0 +1,6 @@
+{
+  "name": "WanderList",
+  "description": "A glassmorphic global travel exploration dashboard to plan, track, and master your dream destinations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
