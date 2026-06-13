@@ -145,9 +145,9 @@ export default function App() {
       {/* 2. Hero cinematic section */}
       <section className="relative min-h-screen md:h-screen flex items-center justify-center pt-28 pb-16 md:py-0 overflow-hidden" id="hero-banner">
         {/* Absolute high-res wide backdrop banner */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            className="w-full h-full object-cover select-none scale-[1.03] animate-fade-in" 
+            className="absolute inset-0 w-full h-full object-cover object-center select-none scale-105 animate-fade-in" 
             referrerPolicy="no-referrer"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8h_Uzb4wIBW0jFzKiDujhXH2zF43glQprlp6i3PBne-4y3mhw-4Lk37jmz9H8MccL5Zr5Iy7AARtfDbO5gDNiLMlGJ2jxjUmJ_gPpiZnhsO5FiuKG3bbhuhaEHSdrDWLcGeh_UEWH6j5b75P6U-XjS25UpgdXU4rh36UoCu2CWmUlW5bjsm_tEITsTgbbtgVtvkM2BF8RYBpqmZNWYC4fEaH0UNP7TQ_S0HHNrBxXO4V4PP9sAb6KIFlOIBIbd6SUKN3uBvYJUg"
             alt="Majestic high peaks sunrise"
