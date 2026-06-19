@@ -64,43 +64,182 @@ export default function DestinationDetailModal({
     setActiveTab('view');
   };
 
-  // Trigger Gemini API call
-  const handleGenerateAIPlanner = async () => {
+  // Simulated premium loading text states
+  const [loadingText, setLoadingText] = useState('Initiating local travel planner...');
+
+  // High-fidelity client-side itinerary & pocket tips generator
+  const generateLocalItinerary = (name: string, country: string, category: CategoryType, description: string): string => {
+    const cleanDesc = description || 'A beautiful bucket-list location to explore.';
+    const finalCountry = country || 'Global';
+
+    switch (category) {
+      case 'Mountains':
+        return `### Insider Pocket Tips for ${name}
+- **Early Ascent Privilege**: Start your ascent to the high trail at 5:00 AM. The alpine glow over the peaks of **${name}** is unmissable and you will bypass general tour crowds.
+- **The Alpine Refuge Secret**: Book a reservation at the off-grid refuge halfway up the slopes for a traditional fondue or local altitude lunch surrounded by alpine meadows.
+- **Aura Photography**: The clear mountain skies over **${name}** are perfect for late-night stargazing; bring a solid tripod for spectacular night landscape shots.
+
+### Premium 3-Day Alpine Itinerary
+
+**Day 1: Immersion & Main Icons**
+- **Morning**: Begin with a gentle trek around the majestic base of **${name}**, inhaling the pine-fresh mountain breeze as alpine mist rises off the valleys.
+- **Afternoon**: Board the scenic cloud-skirting panoramic cableway up to the highest viewpoint platforms. Enjoy a signature espresso at the top overlooking **${finalCountry}**'s glaciers.
+- **Evening**: Unwind at a warm rustic mountain lodge. Savor slow-cooked local delicacies and listen to traditional acoustic guitar tunes by the crackling open fireplace.
+
+**Day 2: Secret Spots & Off the Beaten Track**
+- **Morning**: Hike the secret path to a hidden emerald alpine lake tucked away in the shadows of **${name}**'s high canyons. Perfect for absolute quietness and perfect mirror reflections.
+- **Afternoon**: Discover a secluded wildflower valley trail with stunning gorge views, populated primarily by high-altitude fauna and native birds.
+- **Evening**: Attend a private stargazing briefing with local guides, viewing deep-space constellations through high-caliber mountain astronomical telescopes.
+
+**Day 3: Scenic Excursions & Local Culinary**
+- **Morning**: Wind through the cloud-shrouded serpentine mountain roads of beautiful **${finalCountry}** on a scenic pass excursion.
+- **Afternoon**: Relax at a family-run heritage mountain dairy farm. Taste organic artisanal cheeses, wild-berry tarts, and fresh spring water.
+- **Evening**: Conclude your adventure with a signature geothermal spa healing session, featuring hot mineral thermal pools overlooking the majestic silhouettes of **${name}** under the stars.`;
+
+      case 'Beaches':
+        return `### Insider Pocket Tips for ${name}
+- **Dawn Kayaking**: Wake up at sunrise for a peaceful sea kayaking session. The waters of **${name}** are calmest in the morning before coastal winds build up.
+- **Secret Cove Access**: Walk past the smooth rock boulder formations on the southern headlands to discover a secluded sandy beach that only local fishermen know.
+- **Eco-Snorkeling Secrets**: Rent specialized reef-friendly gear. The healthiest coral colonies can be found just past the main sandbar shelf.
+
+### Premium 3-Day Beach Itinerary
+
+**Day 1: Immersion & Main Icons**
+- **Morning**: Walk along the sparkling, powdery sands of **${name}**, letting the warm turquoise waves lap at your feet while the golden sun climbs high.
+- **Afternoon**: Join a private vintage wooden sailing charter around the coast. Swim with friendly manta rays and color-rich sea turtles.
+- **Evening**: Book an intimate barefoot dinner right on the sand. Savor premium wood-grilled local lobster and fresh catches lit by bamboo fire torches.
+
+**Day 2: Secret Spots & Off the Beaten Track**
+- **Morning**: Board a local outrigger boat to a tiny sandbar nearby. Enjoy a sparkling champagne picnic breakfast completely surrounded by crystal ocean waters.
+- **Afternoon**: Hike up the tropical cliffside trails to a hidden coastal canopy viewpoint offering an incredible overview of the **${finalCountry}** coastline.
+- **Evening**: Take part in an evening bioluminescent plankton excursion under the night sky, watching the waters glow electric neon blue as you move.
+
+**Day 3: Scenic Excursions & Local Culinary**
+- **Morning**: Cycling tour around the island inlets, connecting peaceful fishing villages and pristine saltwater lagoons.
+- **Afternoon**: Attend an exclusive culinary masterclass, learning the balance of preparing lime-infused ceviche and fresh tropical coconut curries.
+- **Evening**: Embark on a premium sunset catamaran cruise, sipping fine local wine as the tropical sky turns deep red and orange over **${finalCountry}**.`;
+
+      case 'Cities':
+        return `### Insider Pocket Tips for ${name}
+- **The Skyline Rooftop Alternative**: Skip the overcrowded observation decks. Instead, reserve a sky-high lounge table overlooking the architectural skyline of **${name}**.
+- **Neighborhood Back-Alleys**: Walk through the historic vintage quarter to find family-owned leather bookbinders, independent perfume makers, and hidden vinyl vaults.
+- **Pre-Dawn Gallery Access**: Secure early-bird tickets for the major museums to explore spectacular collections before crowds arrive.
+
+### Premium 3-Day Cosmopolitan Itinerary
+
+**Day 1: Immersion & Main Icons**
+- **Morning**: Grab an artisanal espresso and explore the central tree-lined plazas, appreciating the grand neoclassical architecture of **${name}**.
+- **Afternoon**: Visit the premier modern arts space. Search for world-renowned canvases and take a peaceful walk in the modern scuptured design gardens.
+- **Evening**: Dine at an award-winning culinary workshop hidden in the vibrant historical center, testing seasonal ingredients of **${finalCountry}**.
+
+**Day 2: Secret Spots & Off the Beaten Track**
+- **Morning**: Embark on a private architectural walk of secret inner courtyards and contemporary modernist residential spaces hidden behind simple city walls.
+- **Afternoon**: Explore a bohemian neighborhood craft market. Meet local indie publishers, vintage collectors, and listen to street jazz musicians.
+- **Evening**: Enjoy a romantic, candlelit acoustic violin and cello concert held inside a beautifully converted historic warehouse loft.
+
+**Day 3: Scenic Excursions & Local Culinary**
+- **Morning**: Scenic tram ride or canal cruise around the emerald parks and outer waters of **${finalCountry}**, capturing modern skyline perspectives.
+- **Afternoon**: Take part in a curated street culinary expedition. Sip local microbrews and test freshly baked artisan breads and luxury chocolates.
+- **Evening**: Complete your trip with skyline sky-deck cocktails, witnessing the infinite sparkling neon grid of **${name}** illuminate the dark sky.`;
+
+      case 'Historical':
+        return `### Insider Pocket Tips for ${name}
+- **Optimal Golden Hour**: Visit the historic archaeological ruins of **${name}** after 4:00 PM. The soft gold sunlight is perfect for photography and temperatures are cooler.
+- **Hire a Specialized Historian**: Hire a certified local archivist or historian at the gate. Their deep cultural anecdotes exceed standard digital guide booklets.
+- **Vault Archive Entry**: Search for the national historical library museum nearby; it displays the original hand-drawn excavation maps of **${finalCountry}**'s monuments.
+
+### Premium 3-Day Archaeological Itinerary
+
+**Day 1: Immersion & Main Icons**
+- **Morning**: Step onto the ancient pathways of **${name}** as first sunlight hits the massive hand-carved stone columns and monumental arches.
+- **Afternoon**: Enjoy an authentic garden lunch, featuring delicious recipes from traditional cookbooks passed down since historic eras.
+- **Evening**: Participate in an exclusive twilight torch-lit run through the primary ruins, hearing historical tales under the peaceful dark starry night.
+
+**Day 2: Secret Spots & Off the Beaten Track**
+- **Morning**: Trek to the lesser-explored secondary archaeological excavations tucked behind the hills, untouched by modern tourism.
+- **Afternoon**: Visit the restoration workshops. Observe local conservators using magnifying lenses to preserve ancient pottery fragments and original coins.
+- **Evening**: Indulge in an exquisite, historically accurate multi-course banquet, with classical instruments and oral poetry retelling old tales of **${finalCountry}**.
+
+**Day 3: Scenic Excursions & Local Culinary**
+- **Morning**: Travel to a nearby historic village or fortified castle, observing lovely rural landscapes along the ancient road network.
+- **Afternoon**: Join an ancient craft-shop workshop. Learn the fundamentals of traditional clay molding, stone sculpting, or old weaving.
+- **Evening**: Conclude with a vintage wine or local beverage tasting inside an ancient vaulted stone cellar, celebrating the timeless heritage of **${name}**.`;
+
+      default:
+        return `### Insider Pocket Tips for ${name}
+- **Avoid Peak Hours**: Check out the center early in the morning or late evening to discover the true spirit of **${name}** without the crowds.
+- **Walk the Local Pathway**: Rely on recommendations from local artisans and tiny family bistros rather than commercial pamphlets.
+- **Equip Best Lenses**: Bring a light camera with good low-light capture for high-fidelity shots of the local architecture.
+
+### Premium 3-Day Custom Itinerary
+
+**Day 1: Exploration & Main Discovery**
+- **Morning**: Walk through the beautiful streets of **${name}**, taking in the local sights, greeting friendly residents of **${finalCountry}**.
+- **Afternoon**: Discover the primary landmarks and read about the culture and architectural background of the site.
+- **Evening**: Have a wonderful dinner at a highly rated local tavern, tasting fresh food prepared with high-quality local produce.
+
+**Day 2: Hidden Corners & Local Treasures**
+- **Morning**: Follow a scenic path off the main road to find custom viewpoints and peaceful natural retreats.
+- **Afternoon**: Explore a local market or community center. Chat with local crafters, writers, or shop owners.
+- **Evening**: Enjoy a relaxing evening listening to acoustic musical tunes or watching a traditional folklore dance presentation.
+
+**Day 3: Immersive Experiences**
+- **Morning**: Take deep-breath walks in nearby tree gardens or coastal pathways enjoying early morning breeze.
+- **Afternoon**: Take part in local masterclasses or workshops, crafting a beautiful memento to bring home with you.
+- **Evening**: Bid farewell to beautiful **${name}** at a gorgeous sunset spot, looking back at three spectacular days in **${finalCountry}**.`;
+    }
+  };
+
+  // Trigger Local Client-Side Planner Simulation
+  const handleGenerateAIPlanner = () => {
     setIsAiLoading(true);
     setAiError('');
-    try {
-      const response = await fetch('/api/gemini/tips', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: destination.name,
-          country: destination.country,
-          category: destination.category,
-          description: destination.description
-        })
-      });
+    
+    // Rotate beautiful premium messages in the background to build travel "feeling"
+    const messages = [
+      'Initiating premium digital travel planner...',
+      `Connecting with local pocket secrets in ${destination.country}...`,
+      `Sourcing elite recommendations for ${destination.name}...`,
+      `Structuring high-end 3-Day itinerary program...`,
+      'Compiling bespoke packing guidance and insights...',
+      'Caching beautiful travel plans to Local Storage...'
+    ];
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate itinerary. Please try again.');
+    let step = 0;
+    setLoadingText(messages[0]);
+    
+    const interval = setInterval(() => {
+      step++;
+      if (step < messages.length) {
+        setLoadingText(messages[step]);
       }
+    }, 300);
 
-      setAiText(data.text);
-      
-      // Update destination state in parent to cache the itinerary
-      onUpdateDestination({
-        ...destination,
-        itinerary: data.text
-      });
-    } catch (err: any) {
-      console.error(err);
-      setAiError(err.message || 'Error parsing server-side travel planner output.');
-    } finally {
-      setIsAiLoading(false);
-    }
+    // Simulate luxury computer layout design delay before outputting
+    setTimeout(() => {
+      clearInterval(interval);
+      try {
+        const text = generateLocalItinerary(
+          destination.name,
+          destination.country,
+          destination.category,
+          destination.description
+        );
+
+        setAiText(text);
+
+        // Update destination locally in memory and persistent storage
+        onUpdateDestination({
+          ...destination,
+          itinerary: text
+        });
+      } catch (err: any) {
+        console.error(err);
+        setAiError('An error occurred while generating the plan locally.');
+      } finally {
+        setIsAiLoading(false);
+      }
+    }, 1800);
   };
 
   // Basic markdown styles formatter
@@ -347,7 +486,7 @@ export default function DestinationDetailModal({
                   {isAiLoading && (
                     <div className="flex flex-col items-center justify-center py-10 space-y-3 bg-[#131b2e]/40 border border-white/5 rounded-2xl select-none">
                       <div className="w-8 h-8 rounded-full border-2 border-t-transparent border-[#8ed5ff] animate-spin"></div>
-                      <p className="text-xs font-semibold text-[#bdc8d1] tracking-wide animate-pulse">Orchestrating premium adventure plan with Gemini...</p>
+                      <p className="text-xs font-semibold text-[#bdc8d1] tracking-wide animate-pulse">{loadingText}</p>
                     </div>
                   )}
 
